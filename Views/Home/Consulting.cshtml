@@ -1,0 +1,82 @@
+﻿@model MaxsPetCare.Models.Consulting
+@{
+    ViewBag.Title = "Pet Consulting";
+}
+<main class="main">
+    <section id="contact" class="contact">
+        <div class="container">
+
+            <div class="section-title" data-aos="fade-up">
+                <h2>@ViewBag.Title</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <img src="~/Images/consulting.jpg" class="img-fluid img-raised" data-aos="fade-right" data-aos-delay="200" />
+                    <p class="mt-3 text-justify" data-aos="fade-up" data-aos-delay="300">
+                        We believe that a caring atmosphere is as much a part of animal care as the veterinary practice. We strongly believe that scientific advancement in veterinary medicine is required to be put into clinical use, for the benefit of animals, and not merely be a topic for academic research.
+                        <br />
+                        It has been a life’s calling for us to make sure animals are healthy and their guardians happy. We derive great satisfaction from helping sick animals. So our doctor can help you reach your door step and treat your pet
+                    </p>
+                </div>
+                <div class="col-lg-6 col-md-12" data-aos="fade-left" data-aos-delay="500">
+                    @if (Session["UserID"] == null)
+                    {
+                        <div class="alert alert-danger mb-3" role="alert" data-aos="zoom-in">
+                            Kindly Login to consult to a doctor <br />
+                            <a href="@Url.Action("Login", "Account")">Click here</a>
+                        </div>
+                        Session["Error"] = null;
+                    }
+                    else
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group">
+                                <label for="PetType">Select your pet</label>
+                                <select class="form-control" id="PetType" name="PetType">
+                                    <option value="Cat">Cat</option>
+                                    <option value="Dog">Dog</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PetBreed)
+                                @Html.EditorFor(model => model.PetBreed, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PetBreed, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PickUpAddress)
+                                @Html.TextAreaFor(model => model.PickUpAddress, new { @class = "form-control", @value = ViewBag.Address })
+                                @Html.ValidationMessageFor(model => model.PickUpAddress, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PickUpDate)
+                                @Html.EditorFor(model => model.PickUpDate, new { htmlAttributes = new { @class = "form-control dtpicker", @type = "text" } })
+                                @Html.ValidationMessageFor(model => model.PickUpDate, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Issue)
+                                @Html.TextAreaFor(model => model.Issue, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Issue, "", new { @class = "error" })
+                            </div>
+
+                            <div class="text-center mt-3 mb-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
+                            </div>
+                        }
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</main>
+

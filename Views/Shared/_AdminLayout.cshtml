@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewBag.Title - @AppInfo.AppName - Admin</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="~/AdminAssets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="~/AdminAssets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link href="~/Plugins/datatables/datatables.css" rel="stylesheet" />
+</head>
+
+<body class="white-content">
+    <div class="wrapper">
+        <div class="sidebar">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="@Url.Action("Index")" class="simple-text logo-mini">
+
+                    </a>
+                    <a href="@Url.Action("Index")" class="simple-text logo-normal">
+                        @AppInfo.AppName
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li class="active ">
+                        <a href="@Url.Action("Index")">
+                            <i class="tim-icons icon-chart-pie-36"></i>
+                            <p>Home</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ContactUs")">
+                            <i class="tim-icons icon-atom"></i>
+                            <p>Contact Us <span class="badge badge-secondary float-right">1 New</span></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Consulting")">
+                            <i class="tim-icons icon-pin"></i>
+                            <p>Consulting</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Training")">
+                            <i class="tim-icons icon-bell-55"></i>
+                            <p>Training</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("TrainingPackages")">
+                            <i class="tim-icons icon-bell-55"></i>
+                            <p>Training Packages</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Boarding")">
+                            <i class="tim-icons icon-single-02"></i>
+                            <p>Boarding</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Users")">
+                            <i class="tim-icons icon-single-02"></i>
+                            <p>All Users</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Admins")">
+                            <i class="tim-icons icon-single-02"></i>
+                            <p>All Admins</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle d-inline">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="@Url.Action("Index")">Admin Panel</a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="dropdown nav-item">
+                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                    <div class="photo">
+                                        <img src="~/Images/user.png">
+                                    </div>
+                                    <b class="caret d-none d-lg-block d-xl-block"></b>
+                                    <p class="d-lg-none">
+                                        Log out
+                                    </p>
+                                </a>
+                                <ul class="dropdown-menu dropdown-navbar">
+                                    <li class="nav-link">
+                                        <a href="javascript:void(0)" class="nav-item dropdown-item">Profile</a>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li class="nav-link">
+                                        <a href="javascript:void(0)" class="nav-item dropdown-item">Log out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="separator d-lg-none"></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+
+                @RenderBody()
+
+            </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link">
+                                Creative Tim
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link">
+                                About Us
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link">
+                                Blog
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="copyright">
+                        &copy;
+                        2020 made with <i class="tim-icons icon-heart-2"></i> by
+                        <a href="javascript:void(0)" target="_blank">Creative Tim</a> for a better web.
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!--   Core JS Files   -->
+    <script src="~/AdminAssets/js/core/jquery.min.js"></script>
+    <script src="~/AdminAssets/js/core/popper.min.js"></script>
+    <script src="~/AdminAssets/js/core/bootstrap.min.js"></script>
+    <script src="~/AdminAssets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="~/AdminAssets/js/plugins/bootstrap-notify.js"></script>
+    <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="~/AdminAssets/js/black-dashboard.min.js?v=1.0.0"></script>
+    <script src="~/Plugins/datatables/datatables.js"></script>
+    @Scripts.Render("~/jqueryval")
+
+    @{
+        if (Session["Flash_Success"] != null)
+        {
+            <script>
+                $.notify({
+                  icon: "tim-icons icon-check-2",
+                  message: '<strong>@Html.Raw(Session["Flash_Success"])</strong>'
+
+                }, {
+                  type: 'success',
+                  timer: 8000,
+                });
+
+            </script>
+            Session["Flash_Success"] = null;
+        }
+
+        if (Session["Flash_Error"] != null)
+        {
+            <script>
+                $.notify({
+                  icon: "tim-icons icon-bell-55",
+                  message: '<strong>@Html.Raw(Session["Flash_Error"])</strong>'
+
+                }, {
+                  type: 'danger',
+                  timer: 8000,
+                });
+            </script>
+            Session["Flash_Error"] = null;
+        }
+    }
+
+<script>
+    // Datatables initialization
+    $(function () {
+        try {
+            $("table.table").DataTable({
+                //responsive: true
+            });
+        } catch (e) { }
+    });
+</script>
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

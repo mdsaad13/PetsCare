@@ -1,0 +1,74 @@
+﻿@model MaxsPetCare.Models.Training
+@{
+    ViewBag.Title = "Pet Training";
+}
+<main class="main">
+    <section id="contact" class="contact">
+        <div class="container">
+
+            <div class="section-title" data-aos="fade-up">
+                <h2>@ViewBag.Title</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <img src="~/Images/training.jpg" class="img-fluid img-raised" data-aos="fade-right" data-aos-delay="200" />
+                    <p class="mt-3 text-justify">
+                        A dog trainer is responsible for creating a training program to promote a dog's good behavior and for their show . They help dog owners train their dogs. A few of the main duties of a dog trainer are identifying problem behaviors, teaching the owner methods to train their dog, developing a training plan for the dog, and creating a welcoming environment. They also have to understand the owner and dog's needs.
+                    </p>
+                </div>
+                <div class="col-lg-6 col-md-12" data-aos="fade-left" data-aos-delay="500">
+                    @if (Session["UserID"] == null)
+                    {
+                        <div class="alert alert-danger mb-3" role="alert" data-aos="zoom-in">
+                            Kindly Login to proceed <br />
+                            <a href="@Url.Action("Login", "Account")">Click here</a>
+                        </div>
+                        Session["Error"] = null;
+                    }
+                    else
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group">
+                                <label for="PetType">Select your pet</label>
+                                <select class="form-control" id="PetType" name="PetType">
+                                    <option value="Cat">Cat</option>
+                                    <option value="Dog">Dog</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PetBreed)
+                                @Html.EditorFor(model => model.PetBreed, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PetBreed, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PickUpAddress)
+                                @Html.TextAreaFor(model => model.PickUpAddress, new { @class = "form-control", @value = ViewBag.Address })
+                                @Html.ValidationMessageFor(model => model.PickUpAddress, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PickUpDate)
+                                @Html.EditorFor(model => model.PickUpDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PickUpDate, "", new { @class = "error" })
+                            </div>
+
+                            <div class="text-center mt-3 mb-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
+                            </div>
+                        }
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</main>
+

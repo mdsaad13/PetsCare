@@ -1,0 +1,60 @@
+﻿@model List<MaxsPetCare.Models.Users>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "All Users";
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card ">
+            <div class="card-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table tablesorter " id="">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Mobile
+                                </th>
+                                <th>
+                                    Address
+                                </th>
+                                <th>
+                                    Joined date
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.Mobile</td>
+                                        <td>@item.Address</td>
+                                        <td>@item.DateTime.ToLongDateString()</td>
+                                    </tr>
+                                }
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

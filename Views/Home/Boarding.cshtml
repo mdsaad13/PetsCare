@@ -1,0 +1,185 @@
+﻿@model MaxsPetCare.Models.Boarding
+@{
+    ViewBag.Title = "Pet Boarding";
+}
+<main class="main">
+    <section id="contact" class="contact">
+        <div class="container">
+
+            <div class="section-title" data-aos="fade-up">
+                <h2>@ViewBag.Title</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <img src="~/Images/boarding.jpg" class="img-fluid img-raised" data-aos="fade-right" data-aos-delay="200" />
+                    <p class="mt-3">
+                        We offer quality pet boarding services
+                        <ul class="no-list-style">
+                            <li>
+                                <i class="ri-check-double-line"></i> The pets are kept in a healthy environment with out keeping them in cages
+                            </li>
+                            <li>
+                                <i class="ri-check-double-line"></i> Branded and home cooked veg & Non Veg menu offered to Pets
+                            </li>
+                            <li>
+                                <i class="ri-check-double-line"></i> Regaular walking and out door activities done on daily basis
+                            </li>
+                            <li>
+                                <i class="ri-check-double-line"></i> Vet on call is a plus point
+                            </li>
+                            <li>
+                                <i class="ri-check-double-line"></i> Every day Picture of your Pet is sent twice a day thorugh Whats app
+                            </li>
+                            <li>
+                                <i class="ri-check-double-line"></i> Affordable rates
+                            </li>
+                            <li>
+                                <i class="ri-check-double-line"></i> Pick up and drop facility is also available
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-lg-6 col-md-12" data-aos="fade-left" data-aos-delay="500">
+                    @if (Session["UserID"] == null)
+                    {
+                        <div class="alert alert-danger mb-3" role="alert" data-aos="zoom-in">
+                            Kindly Login to proceed <br />
+                            <a href="@Url.Action("Login", "Account")">Click here</a>
+                        </div>
+                        Session["Error"] = null;
+                    }
+                    else
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group">
+                                <label for="PetType">Select your pet</label>
+                                <select class="form-control" id="PetType" name="PetType">
+                                    <option value="Cat">Cat</option>
+                                    <option value="Dog">Dog</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PetBreed)
+                                @Html.EditorFor(model => model.PetBreed, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PetBreed, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PickUpAddress)
+                                @Html.TextAreaFor(model => model.PickUpAddress, new { @class = "form-control", @value = ViewBag.Address })
+                                @Html.ValidationMessageFor(model => model.PickUpAddress, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PickUpDate)
+                                @Html.EditorFor(model => model.PickUpDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PickUpDate, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DropDate)
+                                @Html.EditorFor(model => model.DropDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DropDate, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Amount)
+                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "error" })
+                                <small>Per day cost is Rs. 500</small>
+                            </div>
+
+                            <div class="text-center mt-3 mb-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
+                            </div>
+                        }
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</main>
+
+@section scripts{
+    <script>
+
+        $(function () {
+            var CurrentDate = new Date();
+            var PlusDays = new Date();
+            PlusDays.setDate(CurrentDate.getDate() + 30);
+
+            $('#PickUpDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minDate: CurrentDate,
+                maxDate: PlusDays,
+                opens: 'right',
+                drops: 'up',
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+
+            $('#DropDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minDate: CurrentDate,
+                maxDate: PlusDays,
+                opens: 'right',
+                drops: 'up',
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        });
+
+        function getTotalAmt() {
+            var start = moment($('#PickUpDate').val());
+            var end = moment($('#DropDate').val());
+
+            var diff = new Date(end - start);
+
+            // get days
+            var days = diff / 1000 / 60 / 60 / 24;
+
+            $('#Amount').val(days * 500);
+        }
+
+        function ReInitDropDate() {
+            var CurrentDate = new Date($("#PickUpDate").val());
+            var PlusDays = new Date();
+            PlusDays.setDate(CurrentDate.getDate() + 365);
+
+            $('#DropDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minDate: CurrentDate,
+                maxDate: PlusDays,
+                opens: 'right',
+                drops: 'up',
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        }
+
+        $("#PickUpDate").change(function () {
+            ReInitDropDate();
+            getTotalAmt();
+        });
+
+        $("#DropDate").change(function () {
+            getTotalAmt();
+        });
+
+    </script>
+}
+

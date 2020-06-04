@@ -1,0 +1,39 @@
+﻿.btn-primary {
+    color: #fff;
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+    .btn-primary:hover {
+        background: #57aae1;
+        border-color: #57aae1;
+    }
+
+.main {
+    margin-top: 60px;
+    min-height: 80vh;
+}
+
+.error {
+    color: #dc3545;
+}
+
+.no-list-style > li {
+    padding-left: unset;
+    list-style-type: none;
+}
+
+.img-raised {
+    border-radius: 20px;
+    box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
+}
+
+.img-raised:hover {
+    position:relative;
+    z-index:9;
+    transform: translate(0, -19px) scale(1.05) !important;
+}
+
+.nav-menu a {
+    font-weight: bold;
+}

@@ -1,0 +1,58 @@
+﻿@model List<MaxsPetCare.Models.Consulting>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "All Consulting";
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card ">
+            <div class="card-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table" id="">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>User</th>
+                                <th>Pet Type</th>
+                                <th>Pet Breed</th>
+                                <th>Pickup Address</th>
+                                <th>Pickup Date</th>
+                                <th>Status</th>
+                                <th>Added Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.UserID</td>
+                                        <td>@item.PetType</td>
+                                        <td>@item.PetBreed</td>
+                                        <td>@item.PickUpAddress</td>
+                                        <td>@item.PickUpDate.ToLongDateString()</td>
+                                        <td>@item.Status</td>
+                                        <td>@item.DateTime.ToLongDateString()</td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                }
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
