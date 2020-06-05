@@ -14,10 +14,7 @@ namespace MaxsPetCare.Models
 
         [Required]
         public int PackageID { get; set; }
-
-        [Required]
-        public string PetType { get; set; }
-
+        
         [Required]
         [StringLength(30, MinimumLength = 3)]
         public string PetBreed { get; set; }
@@ -34,6 +31,8 @@ namespace MaxsPetCare.Models
         public int Seen { get; set; }
 
         public TrainingPackages PackageDetails { get; set; }
+
+        public string UserName { get; set; }
     }
 
     public class TrainingPackages

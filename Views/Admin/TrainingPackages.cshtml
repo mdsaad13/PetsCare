@@ -1,7 +1,73 @@
-﻿@{
-    ViewBag.Title = "TrainingPackages";
+﻿@model List<MaxsPetCare.Models.TrainingPackages>
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "All Training Packages";
+    ViewBag.Active_Packages = "active";
 }
 
-<h2>TrainingPackages</h2>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card ">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a class="btn btn-primary" href="@Url.Action("AddTrainingPackages")">Add New</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table" id="">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.Name</td>
+                                        @if (item.Type == 1)
+                                        {
+                                            <td>Cat</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Dog</td>
+                                        }
+                                        <td>
+                                            @if (item.Status == 1)
+                                            {
 
+                                                <span class="font-weight-bold text-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="font-weight-bold text-danger">In-Active</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-info" href="@Url.Action("EditTrainingPackages", new { id = item.ID })">Edit</a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

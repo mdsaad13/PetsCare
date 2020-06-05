@@ -1,6 +1,7 @@
 ﻿@model MaxsPetCare.Models.Boarding
 @{
     ViewBag.Title = "Pet Boarding";
+    ViewBag.Active_Boarding = "active";
 }
 <main class="main">
     <section id="contact" class="contact">
@@ -71,7 +72,7 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.PickUpAddress)
-                                @Html.TextAreaFor(model => model.PickUpAddress, new { @class = "form-control", @value = ViewBag.Address })
+                                <textarea class="form-control" cols="20" data-val="true" data-val-length="The field PickUpAddress must be a string with a minimum length of 3 and a maximum length of 30." data-val-length-max="30" data-val-length-min="3" data-val-required="The PickUpAddress field is required." id="PickUpAddress" name="PickUpAddress" rows="2">@ViewBag.Address</textarea>
                                 @Html.ValidationMessageFor(model => model.PickUpAddress, "", new { @class = "error" })
                             </div>
 

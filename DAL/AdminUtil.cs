@@ -41,8 +41,8 @@ namespace MaxsPetCare.DAL
                         Email = Convert.ToString(row["email"]),
                         Mobile = Convert.ToString(row["mobile"]),
                         Subject = Convert.ToString(row["subject"]),
-                        Message = Convert.ToString(row["address"]),
-                        DateTime = Convert.ToDateTime(row["message"])
+                        Message = Convert.ToString(row["message"]),
+                        DateTime = Convert.ToDateTime(row["datetime"])
                     };
 
                     list.Add(obj);
@@ -186,6 +186,45 @@ namespace MaxsPetCare.DAL
         }
         // Packages operations ends here
 
+        internal List<Training> AllTrainings()
+        {
+            DataTable td = new DataTable();
+            List<Training> list = new List<Training>();
+            try
+            {
+                string sqlquery = "SELECT * FROM training ORDER BY training_id DESC";
+                SqlCommand cmd = new SqlCommand(sqlquery, Conn);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                Conn.Open();
+                adp.Fill(td);
+                Conn.Close();
+                AccountUtil accountUtil = new AccountUtil();
+                foreach (DataRow row in td.Rows)
+                {
+                    Training obj = new Training
+                    {
+                        ID = Convert.ToInt32(row["training_id"]),
+                        UserID = Convert.ToInt32(row["user_id"]),
+                        PetBreed = Convert.ToString(row["pet_breed"]),
+                        PickUpAddress = Convert.ToString(row["address"]),
+                        PickUpDate = Convert.ToDateTime(row["pickupdate"]),
+                        PackageID = Convert.ToInt32(row["package_id"]),
+                        DateTime = Convert.ToDateTime(row["datetime"]),
+                    };
+                    obj.UserName = accountUtil.GetUserByID(obj.UserID).Name;
+                    obj.PackageDetails = GetPackageByID(obj.PackageID);
+                    list.Add(obj);
+                }
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                
+            }
+            return list;
+        }
+
         // Boarding operations starts here
         internal List<Boarding> AllBoardings()
         {
@@ -227,15 +266,6 @@ namespace MaxsPetCare.DAL
             }
             return list;
         }
-
-        internal void UpdateBoardingsToSeen()
-        {
-            string query = "UPDATE boarding SET seen = 1 WHERE seen = 0";
-            SqlCommand cmd = new SqlCommand(query, Conn);
-            Conn.Open();
-            cmd.ExecuteNonQuery();
-            Conn.Close();
-        }
         // Boarding operations ends here
         
         internal List<Consulting> AllConsulting()
@@ -252,6 +282,7 @@ namespace MaxsPetCare.DAL
                 Conn.Open();
                 adp.Fill(td);
                 Conn.Close();
+                AccountUtil accountUtil = new AccountUtil();
                 foreach (DataRow row in td.Rows)
                 {
                     Consulting obj = new Consulting
@@ -266,6 +297,7 @@ namespace MaxsPetCare.DAL
                         Status = Convert.ToInt32(row["status"]),
                         DateTime = Convert.ToDateTime(row["datetime"]),
                     };
+                    obj.UserName = accountUtil.GetUserByID(obj.UserID).Name;
                     list.Add(obj);
                 }
             }
@@ -305,6 +337,86 @@ namespace MaxsPetCare.DAL
                 Conn.Close();
             }
             return result;
+        }
+
+        internal List<Gallery> AllImages()
+        {
+            DataTable td = new DataTable();
+            List<Gallery> list = new List<Gallery>();
+            try
+            {
+                string sqlquery = "SELECT * FROM gallery ORDER BY id DESC";
+                SqlCommand cmd = new SqlCommand(sqlquery, Conn);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                Conn.Open();
+                adp.Fill(td);
+                foreach (DataRow row in td.Rows)
+                {
+                    Gallery obj = new Gallery
+                    {
+                        ID = Convert.ToInt32(row["id"]),
+                        ImgURL = Convert.ToString(row["img_url"]),
+                    };
+                    list.Add(obj);
+                }
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                Conn.Close();
+            }
+            return list;
+        }
+
+        internal bool AddImage(Gallery obj)
+        {
+            bool result = false;
+            try
+            {
+                string query = "INSERT INTO gallery (img_url) VALUES(@img_url)";
+                SqlCommand cmd = new SqlCommand(query, Conn);
+
+                cmd.Parameters.Add(new SqlParameter("img_url", obj.ImgURL));
+
+                Conn.Open();
+
+                int rows = cmd.ExecuteNonQuery();
+                if (rows > 0)
+                {
+                    result = true;
+                }
+            }
+            catch (Exception exp)
+            {
+
+            }
+            finally
+            {
+                Conn.Close();
+            }
+            return result;
+        }
+
+        internal void DeleteImage(int ID)
+        {
+            try
+            {
+                string query = "DELETE from gallery where id = @id";
+                SqlCommand cmd = new SqlCommand(query, Conn);
+                cmd.Parameters.Add(new SqlParameter("id", ID));
+
+                Conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Conn.Close();
+            }
         }
     }
 }

@@ -1,0 +1,7 @@
+﻿.error {
+    color: #f5365c;
+}
+
+.card .card-body {
+    padding: 15px 25px !important;
+}

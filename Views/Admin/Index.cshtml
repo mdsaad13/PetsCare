@@ -1,6 +1,51 @@
 ﻿@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Index";
+    ViewBag.Active_Home = "active";
 }
-
-
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-category">Total Contact Us</h5>
+            </div>
+            <div class="card-body">
+                <h3>@ViewBag.AllContactUs</h3>
+                <p><a href="@Url.Action("ContactUs")">View</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-category">Total Consultings</h5>
+            </div>
+            <div class="card-body">
+                <h3>@ViewBag.AllConsulting</h3>
+                <p><a href="@Url.Action("Consulting")">View</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-category">Total Trainings</h5>
+            </div>
+            <div class="card-body">
+                <h3>@ViewBag.AllTraining</h3>
+                <p><a href="@Url.Action("Training")">View</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h5 class="card-category">Total Boardings</h5>
+            </div>
+            <div class="card-body">
+                <h3>@ViewBag.AllBoarding</h3>
+                <p><a href="@Url.Action("Boarding")">View</a></p>
+            </div>
+        </div>
+    </div>
+</div>

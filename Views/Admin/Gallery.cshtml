@@ -1,8 +1,8 @@
-﻿@model List<MaxsPetCare.Models.Users>
+﻿@model List<MaxsPetCare.Models.Gallery>
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "All Users";
-    ViewBag.Active_Users = "active";
+    ViewBag.Title = "Gallery Images";
+    ViewBag.Active_Gallery = "active";
 }
 
 <div class="row">
@@ -14,7 +14,7 @@
                         <h3>@ViewBag.Title</h3>
                     </div>
                     <div class="col-6 text-right">
-                        <a class="btn btn-primary" href="@Url.Action("AddUsers")">Add New</a>
+                        <a class="btn btn-primary" href="@Url.Action("AddGalleryImage")">Add New</a>
                     </div>
                 </div>
             </div>
@@ -27,19 +27,7 @@
                                     #
                                 </th>
                                 <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Email
-                                </th>
-                                <th>
-                                    Mobile
-                                </th>
-                                <th>
-                                    Address
-                                </th>
-                                <th>
-                                    Joined date
+                                    Image
                                 </th>
                                 <th>
                                     Action
@@ -53,15 +41,15 @@
                                 {
                                     <tr>
                                         <td>@i</td>
-                                        <td>@item.Name</td>
-                                        <td>@item.Email</td>
-                                        <td>@item.Mobile</td>
-                                        <td>@item.Address</td>
-                                        <td>@item.DateTime.ToLongDateString()</td>
-                                        <td><a href="@Url.Action("EditUsers", new { id = item.ID })">Edit</a></td>
+                                        <td>
+                                            <img src="~/Images/Gallery/@item.ImgURL" height="200" />
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger" onclick="ConfirmAction('@Url.Action("DeleteGalleryImg", new { ID = item.ID })')">Delete</button>
+                                        </td>
                                     </tr>
+                                    i++;
                                 }
-                                i++;
                             }
                         </tbody>
                     </table>
@@ -70,3 +58,14 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+        function ConfirmAction(url) {
+            if (confirm("Are you sure?")) {
+                window.location.replace(url);
+            }
+            return false;
+        }
+    </script>
+}

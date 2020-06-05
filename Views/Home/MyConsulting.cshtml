@@ -1,6 +1,8 @@
 ﻿@model List<MaxsPetCare.Models.Consulting>
 @{
     ViewBag.Title = "My Consulting";
+    ViewBag.Active_Mys = "active";
+    ViewBag.Active_MyConsulting = "active";
 }
 
 <main class="main">
@@ -62,14 +64,14 @@
                                             <td>
                                                 @if (item.Status == 0)
                                                 {
-                                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="ConfirmAction('@Url.Action("DeleteConsulting", new { ID = item.ID })')">Delete</button>
                                                 }
                                                 else
                                                 {
-                                            <span class="text-muted">No Action Required</span>
+                                                    <span class="text-muted">No Action Required</span>
                                                 }
                                             </td>
-                                            </tr>
+                                        </tr>
                                         i++;
                                     }
                                 }
@@ -82,3 +84,13 @@
     </section>
 </main>
 
+@section scripts{
+    <script>
+        function ConfirmAction(url) {
+            if (confirm("Are you sure?")) {
+                window.location.replace(url);
+            }
+            return false;
+        }
+    </script>
+}

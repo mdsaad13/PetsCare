@@ -27,31 +27,31 @@
 
             <nav class="nav-menu d-none d-lg-block">
                 <ul>
-                    <li class="active"><a href="@Url.Action("Index", "Home")#header">Home</a></li>
-                    <li><a href="@Url.Action("Consulting", "Home")">Pet Consulting</a></li>
-                    <li><a href="@Url.Action("Training", "Home")">Pet Training</a></li>
-                    <li><a href="@Url.Action("Boarding", "Home")">Pet Boarding</a></li>
+                    <li class="@ViewBag.Active_Home"><a href="@Url.Action("Index", "Home")#header">Home</a></li>
+                    <li class="@ViewBag.Active_Consulting"><a href="@Url.Action("Consulting", "Home")">Pet Consulting</a></li>
+                    <li class="@ViewBag.Active_Training"><a href="@Url.Action("Training", "Home")">Pet Training</a></li>
+                    <li class="@ViewBag.Active_Boarding"><a href="@Url.Action("Boarding", "Home")">Pet Boarding</a></li>
                     @if (Session["UserID"] != null)
                     {
-                        <li class="drop-down">
+                        <li class="drop-down @ViewBag.Active_Mys">
                             <a href="">Welcome @Session["Name"]</a>
                             <ul>
-                                <li><a href="@Url.Action("MyConsulting", "Home")">My Pet Consulting</a></li>
-                                <li><a href="@Url.Action("MyTraining", "Home")">My Pet Training</a></li>
-                                <li><a href="@Url.Action("MyBoarding", "Home")">My Pet Boardings</a></li>
-                                <li><a href="@Url.Action("MyAccount", "Home")">My Account</a></li>
+                                <li class="@ViewBag.Active_MyConsulting"><a href="@Url.Action("MyConsulting", "Home")">My Pet Consulting</a></li>
+                                <li class="@ViewBag.Active_MyTraining"><a href="@Url.Action("MyTraining", "Home")">My Pet Training</a></li>
+                                <li class="@ViewBag.Active_MyBoarding"><a href="@Url.Action("MyBoarding", "Home")">My Pet Boardings</a></li>
+                                <li class="@ViewBag.Active_MyAccount"><a href="@Url.Action("MyAccount", "Home")">My Account</a></li>
                                 <li><a href="@Url.Action("Logout", "Home")">Logout</a></li>
                             </ul>
                         </li>
                     }
                     else
                     {
-                        <li class="drop-down">
+                        <li class="drop-down @ViewBag.Active_Accounts">
                             <a href="">Account</a>
                             <ul>
-                                <li><a href="@Url.Action("Login", "Account")">Login</a></li>
-                                <li><a href="@Url.Action("Register", "Account")">Register</a></li>
-                                <li><a href="@Url.Action("AdminLogin", "Account")">Admin Login</a></li>
+                                <li class="@ViewBag.Active_Login"><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                <li class="@ViewBag.Active_Register"><a href="@Url.Action("Register", "Account")">Register</a></li>
+                                <li class="@ViewBag.Active_AdminLogin"><a href="@Url.Action("AdminLogin", "Account")">Admin Login</a></li>
                             </ul>
                         </li>
                     }

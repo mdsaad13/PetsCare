@@ -1,6 +1,7 @@
 ﻿@model MaxsPetCare.Models.Training
 @{
     ViewBag.Title = "Pet Training";
+    ViewBag.Active_Training = "active";
 }
 <main class="main">
     <section id="contact" class="contact">
@@ -35,9 +36,20 @@
                             <div class="form-group">
                                 <label for="PetType">Select your pet</label>
                                 <select class="form-control" id="PetType" name="PetType">
-                                    <option value="Cat">Cat</option>
-                                    <option value="Dog">Dog</option>
+                                    <option value="1">Cat</option>
+                                    <option value="2">Dog</option>
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PackageID)
+                                <select class="form-control" data-val="true" data-val-number="The field PackageID must be a number." data-val-required="The PackageID field is required." id="PackageID" name="PackageID">
+                                    @foreach (var item in ViewBag.PackagesList)
+                                    {
+                                    <option value="@item.ID">@item.Name</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.PackageID, "", new { @class = "error" })
                             </div>
 
                             <div class="form-group">
@@ -48,13 +60,13 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.PickUpAddress)
-                                @Html.TextAreaFor(model => model.PickUpAddress, new { @class = "form-control", @value = ViewBag.Address })
+                                <textarea class="form-control" cols="20" data-val="true" data-val-length="The field PickUpAddress must be a string with a minimum length of 3 and a maximum length of 30." data-val-length-max="30" data-val-length-min="3" data-val-required="The PickUpAddress field is required." id="PickUpAddress" name="PickUpAddress" rows="2">@ViewBag.Address</textarea>
                                 @Html.ValidationMessageFor(model => model.PickUpAddress, "", new { @class = "error" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.PickUpDate)
-                                @Html.EditorFor(model => model.PickUpDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.PickUpDate, new { htmlAttributes = new { @class = "form-control dtpicker" } })
                                 @Html.ValidationMessageFor(model => model.PickUpDate, "", new { @class = "error" })
                             </div>
 
@@ -72,3 +84,22 @@
     </section>
 </main>
 
+@section scripts{
+    <script>
+        $("#PetType").change(function () {
+            var PetType = $(this).val();
+            //alert(PetType);
+            
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetPackages")",
+                data: {
+                    PetType: PetType
+                },
+                success: function (data) {
+                    $('#PackageID').html(data);
+                }
+            });
+        });
+    </script>
+}

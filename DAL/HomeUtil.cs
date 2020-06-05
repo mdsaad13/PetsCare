@@ -123,28 +123,6 @@ namespace MaxsPetCare.DAL
             return list;
         }
 
-        internal void DeleteBoarding(int BoardingID, int UserID)
-        {
-            try
-            {
-                string query = "DELETE from boarding where boarding_id = @boarding_id AND user_id = @user_id";
-                SqlCommand cmd = new SqlCommand(query, Conn);
-                cmd.Parameters.Add(new SqlParameter("boarding_id", BoardingID));
-                cmd.Parameters.Add(new SqlParameter("user_id", UserID));
-
-                Conn.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                Conn.Close();
-            }
-        }
-
         internal bool AddConsulting(Consulting obj)
         {
             bool result = false;
@@ -180,6 +158,28 @@ namespace MaxsPetCare.DAL
                 Conn.Close();
             }
             return result;
+        }
+
+        internal void DeleteConsulting(int ID, int UserID)
+        {
+            try
+            {
+                string query = "DELETE from consulting where consult_id = @consult_id AND user_id = @user_id";
+                SqlCommand cmd = new SqlCommand(query, Conn);
+                cmd.Parameters.Add(new SqlParameter("consult_id", ID));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserID));
+
+                Conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Conn.Close();
+            }
         }
 
         internal List<Consulting> AllConsultingsByUser(int ID)
@@ -228,15 +228,14 @@ namespace MaxsPetCare.DAL
             bool result = false;
             try
             {
-                string query = "INSERT INTO training (user_id, pet_type, pet_breed, address, pickupdate, package_id, seen, datetime) VALUES(@user_id, @pet_type, @pet_breed, @address, @pickupdate, @package_id, @seen, @datetime)";
+                string query = "INSERT INTO training (user_id, pet_breed, address, pickupdate, package_id, seen, datetime) VALUES(@user_id, @pet_breed, @address, @pickupdate, @package_id, @seen, @datetime)";
                 SqlCommand cmd = new SqlCommand(query, Conn);
 
                 cmd.Parameters.Add(new SqlParameter("user_id", obj.UserID));
-                cmd.Parameters.Add(new SqlParameter("pet_type", obj.PetType));
                 cmd.Parameters.Add(new SqlParameter("pet_breed", obj.PetBreed));
                 cmd.Parameters.Add(new SqlParameter("address", obj.PickUpAddress));
                 cmd.Parameters.Add(new SqlParameter("pickupdate", obj.PickUpDate));
-                cmd.Parameters.Add(new SqlParameter("dropdate", obj.PackageID));
+                cmd.Parameters.Add(new SqlParameter("package_id", obj.PackageID));
                 cmd.Parameters.Add(new SqlParameter("seen", obj.Seen));
                 cmd.Parameters.Add(new SqlParameter("datetime", obj.DateTime));
 
@@ -257,6 +256,76 @@ namespace MaxsPetCare.DAL
                 Conn.Close();
             }
             return result;
+        }
+
+        internal List<Training> AllTrainingsByUser(int ID)
+        {
+            DataTable td = new DataTable();
+            List<Training> list = new List<Training>();
+            try
+            {
+                string sqlquery = "SELECT * FROM training WHERE user_id = @user_id ORDER BY training_id DESC";
+                SqlCommand cmd = new SqlCommand(sqlquery, Conn);
+                cmd.Parameters.Add(new SqlParameter("user_id", ID));
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                Conn.Open();
+                adp.Fill(td);
+                Conn.Close();
+
+                AdminUtil adminUtil = new AdminUtil();
+                foreach (DataRow row in td.Rows)
+                {
+                    Training obj = new Training
+                    {
+                        ID = Convert.ToInt32(row["training_id"]),
+                        UserID = Convert.ToInt32(row["user_id"]),
+                        PetBreed = Convert.ToString(row["pet_breed"]),
+                        PickUpAddress = Convert.ToString(row["address"]),
+                        PickUpDate = Convert.ToDateTime(row["pickupdate"]),
+                        PackageID = Convert.ToInt32(row["package_id"]),
+                        DateTime = Convert.ToDateTime(row["datetime"]),
+                    };
+                    obj.PackageDetails = adminUtil.GetPackageByID(obj.PackageID);
+                    list.Add(obj);
+                }
+            }
+            catch (Exception)
+            { }
+            return list;
+        }
+
+        internal List<TrainingPackages> ParticularPackages(int Type)
+        {
+            DataTable td = new DataTable();
+            List<TrainingPackages> list = new List<TrainingPackages>();
+            try
+            {
+                string sqlquery = "SELECT * FROM packages WHERE type = @type AND status = 1 ORDER BY package_id DESC";
+                SqlCommand cmd = new SqlCommand(sqlquery, Conn);
+                cmd.Parameters.Add(new SqlParameter("type", Type));
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                Conn.Open();
+                adp.Fill(td);
+                foreach (DataRow row in td.Rows)
+                {
+                    TrainingPackages obj = new TrainingPackages
+                    {
+                        ID = Convert.ToInt32(row["package_id"]),
+                        Name = Convert.ToString(row["name"]),
+                        Status = Convert.ToInt32(row["status"]),
+                        Type = Convert.ToInt32(row["type"]),
+                    };
+
+                    list.Add(obj);
+                }
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                Conn.Close();
+            }
+            return list;
         }
     }
 }

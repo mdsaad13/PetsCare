@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "All Consulting";
+    ViewBag.Active_Consulting = "active";
 }
 
 <div class="row">
@@ -11,13 +12,11 @@
                 <h3>@ViewBag.Title</h3>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="">
                     <table class="table" id="">
-                        <thead class=" text-primary">
+                        <thead class="text-primary">
                             <tr>
-                                <th>
-                                    #
-                                </th>
+                                <th>#</th>
                                 <th>User</th>
                                 <th>Pet Type</th>
                                 <th>Pet Breed</th>
@@ -35,19 +34,55 @@
                                 {
                                     <tr>
                                         <td>@i</td>
-                                        <td>@item.UserID</td>
+                                        <td>@item.UserName</td>
                                         <td>@item.PetType</td>
                                         <td>@item.PetBreed</td>
                                         <td>@item.PickUpAddress</td>
                                         <td>@item.PickUpDate.ToLongDateString()</td>
-                                        <td>@item.Status</td>
+                                        <td>
+                                            @if (item.Status == 0)
+                                            {
+                                                <span class="font-weight-bold text-warning">
+                                                    Pending
+                                                </span>
+                                            }
+                                            else if (item.Status == 1)
+                                            {
+                                                <span class="font-weight-bold text-success">
+                                                    Accepted
+                                                </span>
+                                            }
+                                            else if (item.Status == 2)
+                                            {
+                                                <span class="font-weight-bold text-danger">
+                                                    Rejected
+                                                </span>
+                                            }
+                                        </td>
                                         <td>@item.DateTime.ToLongDateString()</td>
                                         <td>
-
+                                            @if (item.Status == 0)
+                                            {
+                                                <div class="dropdown">
+                                                    <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <button class="dropdown-item" onclick="ConfirmAction('@Url.Action("ConsultingStatus", new { ID = item.ID, Status = 1 })')">Accept</button>
+                                                        <button class="dropdown-item" onclick="ConfirmAction('@Url.Action("ConsultingStatus", new { ID = item.ID, Status = 2 })')">Reject</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">
+                                                    No Action required!
+                                                </span>
+                                            }
                                         </td>
                                     </tr>
-                                }
                                 i++;
+                                }
                             }
                         </tbody>
                     </table>
@@ -56,3 +91,14 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+        function ConfirmAction(url) {
+            if (confirm("Are you sure?")) {
+                window.location.replace(url);
+            }
+            return false;
+        }
+    </script>
+}

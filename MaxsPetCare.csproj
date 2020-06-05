@@ -135,6 +135,7 @@
     <Compile Include="Models\Boarding.cs" />
     <Compile Include="Models\Consulting.cs" />
     <Compile Include="Models\ContactUs.cs" />
+    <Compile Include="Models\Gallery.cs" />
     <Compile Include="Models\Training.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <Content Include="AdminAssets\css\black-dashboard.css" />
     <Content Include="AdminAssets\css\black-dashboard.min.css" />
+    <Content Include="AdminAssets\css\custom.css" />
     <Content Include="AdminAssets\css\nucleo-icons.css" />
     <Content Include="AdminAssets\js\black-dashboard.js" />
     <Content Include="AdminAssets\js\black-dashboard.min.js" />
@@ -283,9 +285,16 @@
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Admin\Admins.cshtml" />
     <Content Include="Views\Admin\_PackageForm.cshtml" />
+    <Content Include="Views\Admin\_UserForm.cshtml" />
+    <Content Include="Views\Admin\_AdminForm.cshtml" />
+    <Content Include="Views\Admin\MyAccount.cshtml" />
+    <Content Include="Views\Admin\ContactUs.cshtml" />
+    <Content Include="Views\Admin\Gallery.cshtml" />
+    <Content Include="Views\Admin\AddGalleryImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Gallery\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

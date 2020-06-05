@@ -238,6 +238,38 @@ namespace MaxsPetCare.DAL
             return result;
         }
 
+        internal bool AddAdmin(Admin model)
+        {
+            bool result = false;
+            try
+            {
+                string query = "INSERT INTO admin (name, email, mobile, password) VALUES(@name, @email, @mobile, @password)";
+                SqlCommand cmd = new SqlCommand(query, Conn);
+
+                cmd.Parameters.Add(new SqlParameter("name", model.Name));
+                cmd.Parameters.Add(new SqlParameter("email", model.Email));
+                cmd.Parameters.Add(new SqlParameter("mobile", model.Mobile));
+                cmd.Parameters.Add(new SqlParameter("password", model.Password));
+
+                Conn.Open();
+
+                int rows = cmd.ExecuteNonQuery();
+                if (rows > 0)
+                {
+                    result = true;
+                }
+            }
+            catch (Exception exp)
+            {
+
+            }
+            finally
+            {
+                Conn.Close();
+            }
+            return result;
+        }
+
         internal List<Admin> AllAdmins(int IdNotInclude)
         {
             DataTable td = new DataTable();

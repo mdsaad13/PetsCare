@@ -35,5 +35,7 @@ namespace MaxsPetCare.Models
         public int Seen { get; set; }
 
         public int Status { get; set; }
+
+        public string UserName { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "All Pet Boarding";
+    ViewBag.Active_Boarding = "active";
 }
 
 <div class="row">
@@ -42,8 +43,8 @@
                                         <td>@item.Amount.ToString("C")</td>
                                         <td>@item.DateTime.ToLongDateString()</td>
                                     </tr>
-                                }
                                 i++;
+                                }
                             }
                         </tbody>
                     </table>

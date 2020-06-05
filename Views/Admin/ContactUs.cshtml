@@ -1,40 +1,28 @@
-﻿@model List<MaxsPetCare.Models.Admin>
+﻿@model List<MaxsPetCare.Models.ContactUs>
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "All Admins";
-    ViewBag.Active_Admins = "active";
+    ViewBag.Title = "All Contact Us";
+    ViewBag.Active_ContactUs = "active";
 }
 
 <div class="row">
     <div class="col-lg-12 col-md-12">
         <div class="card ">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-6">
-                        <h3>@ViewBag.Title</h3>
-                    </div>
-                    <div class="col-6 text-right">
-                        <a class="btn btn-primary" href="@Url.Action("AddAdmin")">Add New</a>
-                    </div>
-                </div>
+                <h3>@ViewBag.Title</h3>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table" id="">
                         <thead class=" text-primary">
                             <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Email
-                                </th>
-                                <th>
-                                    Mobile
-                                </th>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Added Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,10 +35,12 @@
                                         <td>@item.Name</td>
                                         <td>@item.Email</td>
                                         <td>@item.Mobile</td>
-                                        <td><a href="@Url.Action("EditAdmin", new { id = item.ID })">Edit</a></td>
+                                        <td>@item.Subject</td>
+                                        <td>@item.Message</td>
+                                        <td>@item.DateTime.ToLongDateString()</td>
                                     </tr>
-                                }
                                 i++;
+                                }
                             }
                         </tbody>
                     </table>

@@ -2,8 +2,6 @@
 using MaxsPetCare.DAL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MaxsPetCare.Controllers
@@ -27,7 +25,8 @@ namespace MaxsPetCare.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            AdminUtil adminUtil = new AdminUtil();
+            return View(adminUtil.AllImages());
         }
 
         public ActionResult ContactUs()
@@ -52,7 +51,6 @@ namespace MaxsPetCare.Controllers
             return RedirectToAction("ContactUs");
         }
 
-        
         public ActionResult Consulting()
         {
             ViewBag.Address = UserAddress();
@@ -72,13 +70,12 @@ namespace MaxsPetCare.Controllers
             if (HomeUtil.AddConsulting(consulting))
             {
                 Session["Flash_Success"] = "Consulting added successfully!";
-                return RedirectToAction("MyConsulting");
             }
             else
             {
                 Session["Flash_Error"] = "Consulting add failed!<br>Please try again later";
-                return View();
             }
+            return RedirectToAction("MyConsulting");
         }
 
         [UserAuthorize]
@@ -87,10 +84,31 @@ namespace MaxsPetCare.Controllers
             return View(HomeUtil.AllConsultingsByUser((int) Session["UserID"]));
         }
 
+        public ActionResult DeleteConsulting(int ID)
+        {
+            HomeUtil.DeleteConsulting(ID, (int)Session["UserID"]);
+            Session["Flash_Success"] = "Consulting deleted successfully!";
+            return RedirectToAction("MyConsulting");
+        }
+
         public ActionResult Training()
         {
             ViewBag.Address = UserAddress();
+            ViewBag.PackagesList = HomeUtil.ParticularPackages(1);
             return View();
+        }
+
+        [HttpPost]
+        public string GetPackages(FormCollection formCollection)
+        {
+            int Type =  Convert.ToInt32(formCollection["PetType"]);
+            List<TrainingPackages> list = HomeUtil.ParticularPackages(Type);
+            string Data = "";
+            foreach (var item in list)
+            {
+                Data += $"<option value=\"{item.ID}\">{item.Name}</option>";
+            }
+            return Data;
         }
 
         [UserAuthorize]
@@ -104,19 +122,18 @@ namespace MaxsPetCare.Controllers
             if (HomeUtil.AddTraining(training))
             {
                 Session["Flash_Success"] = "Pet Training added successfully!";
-                return RedirectToAction("MyTraining");
             }
             else
             {
                 Session["Flash_Error"] = "Pet Training add failed!<br>Please try again later";
-                return View();
             }
+            return RedirectToAction("MyTraining");
         }
 
         [UserAuthorize]
         public ActionResult MyTraining()
         {
-            return View();
+            return View(HomeUtil.AllTrainingsByUser((int)Session["UserID"]));
         }
         
         public ActionResult Boarding()
@@ -156,6 +173,52 @@ namespace MaxsPetCare.Controllers
         {
             AccountUtil accountUtil = new AccountUtil();
             return View(accountUtil.GetUserByID((int)Session["UserID"]));
+        }
+
+        [UserAuthorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MyAccount(Users users)
+        {
+            users.ID = (int)Session["UserID"];
+            AccountUtil accountUtil = new AccountUtil();
+            if (accountUtil.UpdateUser(users))
+            {
+                Session["Flash_Success"] = "Profile updated successfully!";
+            }
+            else
+            {
+                Session["Flash_Error"] = "Profile update failed!<br>Please try again later";
+            }
+            return RedirectToAction("MyAccount");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(FormCollection formCollection)
+        {
+            string OldPassword = Convert.ToString(formCollection["OldPassword"]);
+            string NewPassword = Convert.ToString(formCollection["NewPassword"]);
+            AccountUtil accountUtil = new AccountUtil();
+            Users user = accountUtil.GetUserByID(Convert.ToInt32(Session["UserID"]));
+
+            if (user.Password == OldPassword)
+            {
+                if (accountUtil.UpdateUserPassword(NewPassword, user.ID))
+                {
+                    Session["Flash_Success"] = "Password updated successfully!";
+                }
+                else
+                {
+                    Session["Flash_Error"] = "Password update failed!<br>Please try again later";
+                }
+            }
+            else
+            {
+                Session["Flash_Error"] = "Incorrect Password";
+            }
+
+            return RedirectToAction("MyAccount");
         }
 
         public ActionResult Logout()
